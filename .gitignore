@@ -1,1 +1,3 @@
-*_images
+training_images/*
+descriptors/*
+old
