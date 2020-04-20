@@ -9,7 +9,7 @@ export default class {
             faceapi.nets.tinyFaceDetector.loadFromUri(this.host + '/models'),
             faceapi.nets.faceRecognitionNet.loadFromUri(this.host + '/models'),
             faceapi.nets.faceLandmark68Net.loadFromUri(this.host + '/models'),
-           // faceapi.nets.ssdMobilenetv1.loadFromUri('/models'),
+           faceapi.nets.ssdMobilenetv1.loadFromUri('/models'),
             // faceapi.nets.faceExpressionNet.loadFromUri('/models')
         ])       
 
@@ -76,12 +76,13 @@ export default class {
         return detectedFaces
     }   
 
-    async recognize(input, callback){           
+    async recognize(input, interval, callback){           
         // To slow down how many times we scan for faces
         setTimeout(async () => {
             let detectedFaces = await this.detectFaces(input)
             callback(detectedFaces)
-            if(this.loop) await this.recognize(input, callback)
-        },1000)
+            interval = (detectedFaces) ? 2000 : 100
+            if(this.loop) await this.recognize(input, interval, callback)
+        }, interval)
     }
 }

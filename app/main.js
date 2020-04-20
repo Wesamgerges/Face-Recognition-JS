@@ -7,29 +7,34 @@ const labels = [
     'Tony Stark', 
     'Wesam'
 ];
+let interval = 100
 var faceRecognition = new FaceRecognition(host);
 (async () => { 
+    console.log("init the app...")
     await faceRecognition.init(labels)
 
     // Start video
-    navigator.getUserMedia(
-        { video: {} },
-        stream => input.srcObject = stream,
-        err => console.error(err)
-    )
+    try {
+        let stream = await navigator.mediaDevices.getUserMedia(
+            { video: {} },            
+        )
+        input.srcObject = stream
+    } catch(err) {
+        console.error(err)
+    }
     // Print completion message
     message.innerText = 'Models and descriptors have been Loaded'
 
     // Start recognition once the camera starts
     input.addEventListener('play', async () => {
-        await faceRecognition.recognize(input, printLabels)
+        await faceRecognition.recognize(input, interval, printLabels)
     })
     
 })()
 
 function printLabels(detectedFaces){
     if(detectedFaces) {
-        message.innerText = ""
+        message.innerText = "Hi, "
         message.innerText += detectedFaces.map(x => x.toString())
     }
 }
