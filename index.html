@@ -17,19 +17,15 @@
       padding: 0;
       width: 100vw;
       height: 100vh;
-      display: flex;
-      justify-content: center;
+      /* display: flex; */
+      /* justify-content: center;
       align-items: center;
-      flex-direction: column
+      flex-direction: column */
     }
 
-    canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-    #video2 {
-      visibility: hidden;
+    #video {
+      /* visibility: hidden; */
+      float: right;      
     }
     #message {
       font-size: 18px;
@@ -38,8 +34,8 @@
   </style>
 </head>
 <body>
-  <video id="video" width="720" height="560" autoplay muted></video>
-  <div id="message" ></div>
+  <video id="video" width="120" height="60" autoplay muted></video>
+  <div id="message"></div>
   <div id="des"></div>
 </body>
 </html>
