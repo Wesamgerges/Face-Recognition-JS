@@ -1,8 +1,7 @@
 export default class {
-    constructor(host, input, message){
+    constructor(host){
         this.host = host    
-        this.input = input
-        this.message = message   
+        this.loop = true
     }
 
     async init(labels){        
@@ -59,9 +58,9 @@ export default class {
         return descriptors
     }
 
-    async detectFaces() {     
+    async detectFaces(input) {  
         const results = await faceapi
-            .detectAllFaces(this.input, new faceapi.TinyFaceDetectorOptions())
+            .detectAllFaces(input, new faceapi.TinyFaceDetectorOptions())
             .withFaceLandmarks()
             .withFaceDescriptors()
     
@@ -69,9 +68,20 @@ export default class {
             console.log("no faces")
             return
         }
+        let detectedFaces = []
         results.forEach(fd => {
             const bestMatch = this.faceMatcher.findBestMatch(fd.descriptor)
-            this.message.innerText = bestMatch.toString()
+            detectedFaces.push(bestMatch)           
         })
+        return detectedFaces
+    }   
+
+    async recognize(input, callback){           
+        // To slow down how many times we scan for faces
+        setTimeout(async () => {
+            let detectedFaces = await this.detectFaces(input)
+            callback(detectedFaces)
+            if(this.loop) await this.recognize(input, callback)
+        },1000)
     }
 }

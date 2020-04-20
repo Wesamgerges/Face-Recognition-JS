@@ -7,25 +7,29 @@ const labels = [
     'Tony Stark', 
     'Wesam'
 ];
-var faceRecognition = new FaceRecognition(host, input, message);
+var faceRecognition = new FaceRecognition(host);
 (async () => { 
     await faceRecognition.init(labels)
+
+    // Start video
     navigator.getUserMedia(
         { video: {} },
         stream => input.srcObject = stream,
         err => console.error(err)
     )
+    // Print completion message
     message.innerText = 'Models and descriptors have been Loaded'
+
+    // Start recognition once the camera starts
     input.addEventListener('play', async () => {
-        await callback()
+        await faceRecognition.recognize(input, printLabels)
     })
     
 })()
-var loop = true
-async function callback(){    
-    // to slow down how many times we scan for faces
-    setTimeout(async () => {
-        await faceRecognition.detectFaces()
-        if(loop) await callback()
-    },1000)
+
+function printLabels(detectedFaces){
+    if(detectedFaces) {
+        message.innerText = ""
+        message.innerText += detectedFaces.map(x => x.toString())
+    }
 }
