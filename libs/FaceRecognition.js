@@ -5,12 +5,12 @@ export default class {
     }
 
     async init(labels){    
-        console.log(this.host)
+        console.log(this.host + 'models')
         await Promise.all([
-            faceapi.nets.tinyFaceDetector.loadFromUri(this.host + '/models'),
-            faceapi.nets.faceRecognitionNet.loadFromUri(this.host + '/models'),
-            faceapi.nets.faceLandmark68Net.loadFromUri(this.host + '/models'),
-           faceapi.nets.ssdMobilenetv1.loadFromUri('/models'),
+            faceapi.nets.tinyFaceDetector.loadFromUri(this.host + 'models'),
+            faceapi.nets.faceRecognitionNet.loadFromUri(this.host + 'models'),
+            faceapi.nets.faceLandmark68Net.loadFromUri(this.host + 'models'),
+            faceapi.nets.ssdMobilenetv1.loadFromUri('models'),
             // faceapi.nets.faceExpressionNet.loadFromUri('/models')
         ])       
 

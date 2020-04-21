@@ -35,6 +35,6 @@ var faceRecognition = new FaceRecognition(host);
 function printLabels(detectedFaces){
     if(detectedFaces) {
         message.innerText = "Hi, "
-        message.innerText += detectedFaces.map(x => x.toString())
+        message.innerText += " " + detectedFaces.map(x => x.toString())
     }
 }
