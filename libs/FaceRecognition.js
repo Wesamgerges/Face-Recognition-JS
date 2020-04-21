@@ -4,7 +4,8 @@ export default class {
         this.loop = true
     }
 
-    async init(labels){        
+    async init(labels){    
+        console.log(this.host)
         await Promise.all([
             faceapi.nets.tinyFaceDetector.loadFromUri(this.host + '/models'),
             faceapi.nets.faceRecognitionNet.loadFromUri(this.host + '/models'),
