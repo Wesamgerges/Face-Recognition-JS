@@ -8,7 +8,7 @@ const labels = [
     'Wesam'
 ];
 let interval = 100
-var faceRecognition = new FaceRecognition(host);
+var faceRecognition = new FaceRecognition(host, input);
 (async () => { 
     console.log("init the app...")
     await faceRecognition.init(labels)
@@ -27,7 +27,7 @@ var faceRecognition = new FaceRecognition(host);
 
     // Start recognition once the camera starts
     input.addEventListener('play', async () => {
-        await faceRecognition.recognize(input, interval, printLabels)
+        await faceRecognition.recognize(printLabels)
     })
     
 })()

@@ -1,11 +1,12 @@
 export default class {
-    constructor(host){
+    constructor(host, input){
         this.host = host    
         this.loop = true
+        this.input = input
+        this.interval = 100
     }
 
     async init(labels){    
-        console.log(this.host + 'models')
         await Promise.all([
             faceapi.nets.tinyFaceDetector.loadFromUri(this.host + 'models'),
             faceapi.nets.faceRecognitionNet.loadFromUri(this.host + 'models'),
@@ -59,9 +60,9 @@ export default class {
         return descriptors
     }
 
-    async detectFaces(input) {  
+    async detectFaces() {  
         const results = await faceapi
-            .detectAllFaces(input, new faceapi.TinyFaceDetectorOptions())
+            .detectAllFaces(this.input, new faceapi.TinyFaceDetectorOptions())
             .withFaceLandmarks()
             .withFaceDescriptors()
     
@@ -77,13 +78,15 @@ export default class {
         return detectedFaces
     }   
 
-    async recognize(input, interval, callback){           
+    async recognize(callback) { 
+        let detectedFaces = await this.detectFaces(this.input)
+        callback(detectedFaces)                     
         // To slow down how many times we scan for faces
-        setTimeout(async () => {
-            let detectedFaces = await this.detectFaces(input)
-            callback(detectedFaces)
-            interval = (detectedFaces) ? 2000 : 100
-            if(this.loop) await this.recognize(input, interval, callback)
-        }, interval)
+        this.interval = (detectedFaces) ? 2000 : 100
+        if(this.loop) {
+            setTimeout(async () => {
+                await this.recognize(callback) 
+            }, this.interval)
+        }
     }
 }
