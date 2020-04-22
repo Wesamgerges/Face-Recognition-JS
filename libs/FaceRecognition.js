@@ -1,6 +1,6 @@
 export default class {
     constructor(host, input){
-        this.host = "https://wesamgerges.com/"//host    
+        this.host = host    
         this.loop = true
         this.input = input
         this.interval = 100
@@ -35,7 +35,7 @@ export default class {
         let descriptions = []
         let total = (label== "Wesam") ? 7 : 2;
         for (let i = 1; i <= total; i++) {
-            const img = await faceapi.fetchImage(`${this.host}/training_images/${label}/${i}.jpg`)
+            const img = await faceapi.fetchImage(`https://wesamgerges.com/training_images/${label}/${i}.jpg`)
             const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor()
             descriptions.push(detections.descriptor)
         }
