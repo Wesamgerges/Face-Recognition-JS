@@ -1,6 +1,6 @@
 export default class {
     constructor(host, input){
-        this.host = host    
+        this.host = "https://wesamgerges.com/"//host    
         this.loop = true
         this.input = input
         this.interval = 100
