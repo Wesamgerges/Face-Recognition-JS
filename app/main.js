@@ -1,3 +1,4 @@
+import {bindPage} from "../libs/camera.js"
 import FaceRecognition from "../libs/FaceRecognition.js"
 const input = document.getElementById('video')
 const message = document.getElementById('message')
@@ -15,10 +16,11 @@ var faceRecognition = new FaceRecognition(host, input);
 
     // Start video
     try {
-        let stream = await navigator.mediaDevices.getUserMedia(
-            { video: {} },            
-        )
-        input.srcObject = stream
+        // let stream = await navigator.mediaDevices.getUserMedia(
+        //     { video: {} },            
+        // )
+        // input.srcObject = stream
+        bindPage()
     } catch(err) {
         console.error(err)
     }
