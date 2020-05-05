@@ -1,6 +1,5 @@
-import {bindPage} from "../libs/camera.js"
-import FaceRecognition from "../libs/FaceRecognition.js"
-const input = document.getElementById('video')
+import Camera from "../lib/Camera.js"
+import FaceRecognition from "../lib/FaceRecognition.js"
 const message = document.getElementById('message')
 const host = window.location.href
 const labels = [
@@ -9,18 +8,15 @@ const labels = [
     'Wesam'
 ];
 let interval = 100
-var faceRecognition = new FaceRecognition(host, input);
+var faceRecognition = new FaceRecognition(host);
+var camera = new Camera();
 (async () => { 
     console.log("init the app...")
     await faceRecognition.init(labels)
 
     // Start video
     try {
-        // let stream = await navigator.mediaDevices.getUserMedia(
-        //     { video: {} },            
-        // )
-        // input.srcObject = stream
-        bindPage()
+        faceRecognition.video = await camera.start()
     } catch(err) {
         console.error(err)
     }
@@ -28,8 +24,9 @@ var faceRecognition = new FaceRecognition(host, input);
     message.innerText = 'Models and descriptors have been Loaded'
 
     // Start recognition once the camera starts
-    input.addEventListener('play', async () => {
-        await faceRecognition.recognize(printLabels)
+    camera.video.addEventListener('play', async () => {
+        // console.log(faceRecognition.input)
+       await faceRecognition.recognize(printLabels)
     })
     
 })()
